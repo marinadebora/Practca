@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import '../Styles/App.css'
 import validation from '../funciones/funValidation.js'
-
-
+import esBisiesto from '../funciones/funBisiesto'
+import mes from '../funciones/funMes'
 
 function App()
 {
@@ -42,19 +42,42 @@ setFrom({
   año: ""
 })
    
-}/* calcular los meses y dias si el dia de cumpleaños
- es mayor al dia de hoy restar un mes y contar los dias */
+}/* falta calcular cuando el mes tiene 31 dias o 30 dias */
 
-   let hoy=new Date()
-   let TieneEdad= parseInt(hoy.getFullYear())-edad.año -1;
-   let tieneMeses= parseInt(hoy.getMonth())
+
+  let bisiesto = esBisiesto(edad.año);
+  let mesLargo=mes(edad.mes)
+   let hoy=  new Date('March 17, 2023 03:24:00')
+   let tieneEdad= parseInt(hoy.getFullYear())-edad.año -1;
+   let tieneMeses= parseInt(hoy.getMonth())+1
    let tieneDias= parseInt(hoy.getDate())
-  let total= {
-    años: TieneEdad,
-    meses:(12-edad.mes) + (tieneMeses),
-    dias:tieneDias - edad.dia
+  let dia;
+  let meses;
+   if(bisiesto&&tieneMeses==3&&edad.mes==3&&edad.dia>tieneDias){
+    dia= (29-edad.dia) + tieneDias;
+    meses=(11-edad.mes) + (tieneMeses)
+   }else if(bisiesto&&tieneMeses==3&&edad.mes==3&&edad.dia<tieneDias){
+    dia=  tieneDias- edad.dia;
+    meses=(12-edad.mes) + (tieneMeses)
+   
+  }else if(!bisiesto&&tieneMeses==3&&edad.mes==3&&edad.dia>tieneDias){
+    dia= (28-edad.dia) + tieneDias;
+    meses=(11-edad.mes) + (tieneMeses)
+   }else if(!bisiesto&&tieneMeses==3&&edad.mes==3&&edad.dia<tieneDias){
+    dia=  tieneDias- edad.dia;
+    meses=(12-edad.mes) + (tieneMeses)
   }
+  if(meses===12){
+   tieneEdad = tieneEdad+1;
+   meses=0
+ }
 
+  let total= {
+    años: tieneEdad,
+    meses:meses,
+    dias:dia
+  }
+console.log(tieneMeses)
   return (
     <div className="App">
         <div className='containLabel'><label>Dia</label>

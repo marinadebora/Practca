@@ -31,12 +31,16 @@ export default function validation(from)
       }else{
         if (meses && from.day < 0 || from.day > 31) {
             errors.day = "el mes tiene entre 1 y 31 dias"
-          } else if (from.month !== 2 && from.day < 0 || from.day > 30 ) {
+          } else if (!meses &&from.month !== 2 && from.day < 0 || !meses &&from.day > 30 ) {
             errors.day = "el mes tiene entre 1 y 30 dias"
+          }else{
+            errors={}
           }
       }
+      
   }
   console.log(errors)
+  console.log(meses)
   return errors
 }
 

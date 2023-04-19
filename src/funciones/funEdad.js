@@ -1,14 +1,12 @@
 import esBisiesto from '../funciones/funBisiesto'
-import mes from '../funciones/funMes'
 
-export default function edad(edad)
+export default function edad(fDeNac)
 {
 
-  let inputDay = parseInt(edad.day)
-  let inputMonth = parseInt(edad.month)
-  let inputYear = parseInt(edad.year)
-  let mesLargo = mes(parseInt(edad.month))
-  let hoy = new Date(/* 'March 14, 2000 03:24:00' */)
+  let inputDay = parseInt(fDeNac.day)
+  let inputMonth = parseInt(fDeNac.month)
+  let inputYear = parseInt(fDeNac.year)
+  let hoy = new Date()
   let isOld = parseInt(hoy.getFullYear()) - inputYear - 1;
   let hasMonths = parseInt(hoy.getMonth()) + 1
   let hasDays = parseInt(hoy.getDate())
@@ -29,18 +27,23 @@ export default function edad(edad)
     11:30,
     12:31
   }
-  let num=parseInt(inputMonth)
-  if(inputDay > hasDays){
-    dia= (( objMes[num-1] - inputDay) + hasDays);
-    meses=(11- num) + (hasMonths)
+  
+  console.log(typeof inputDay)
+  if(inputDay===30||inputDay===31){
+    dia=hasDays;
+    meses=(11- inputMonth) + (hasMonths);
+    console.log(hasDays)
+  }else if(inputDay > hasDays){
+    dia= (( objMes[inputMonth-1] - inputDay) + hasDays);
+    meses=(11- inputMonth) + (hasMonths)
   }else{
     dia= hasDays -inputDay ;
-    meses=(12 - num) + (hasMonths)
+    meses=(12 - inputMonth) + (hasMonths)
   }
  
 
 
-  if (dia == objMes[num-1]) {
+  if (dia == objMes[inputMonth-1]) {
     meses = meses + 1;
     dia = 0
   }
@@ -55,7 +58,7 @@ export default function edad(edad)
     day: dia
   }
   
-  console.log(edad)
+  console.log(fDeNac)
   return total
 }
 
